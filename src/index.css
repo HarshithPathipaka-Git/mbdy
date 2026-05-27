@@ -1,0 +1,196 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Variables ──────────────────────────────────────── */
+:root {
+  --sky:        #38bdf8;
+  --sky-dim:    rgba(56,189,248,0.18);
+  --moon:       #93c5fd;
+  --moon-dim:   rgba(147,197,253,0.15);
+  --cyan:       #67e8f9;
+  --cyan-dim:   rgba(103,232,249,0.12);
+  --lav:        #c4b5fd;
+  --lav-dim:    rgba(196,181,253,0.13);
+  --bg:         #04060f;
+  --bg2:        #070c1a;
+  --bg3:        #0c1428;
+  --surface:    rgba(255,255,255,0.04);
+  --border:     rgba(255,255,255,0.07);
+  --border-sky: rgba(56,189,248,0.22);
+}
+
+/* ── Reset ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--sky-dim); border-radius: 4px; }
+
+/* ── Typography utilities ───────────────────────────────── */
+.font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
+.font-mono    { font-family: 'DM Mono', monospace; }
+
+.text-shimmer-sky {
+  background: linear-gradient(135deg, #38bdf8 0%, #93c5fd 35%, #67e8f9 65%, #38bdf8 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+.text-shimmer-moon {
+  background: linear-gradient(135deg, #93c5fd 0%, #e0f2fe 40%, #c4b5fd 70%, #93c5fd 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 6s linear infinite reverse;
+}
+
+.text-shimmer-lav {
+  background: linear-gradient(135deg, #c4b5fd 0%, #e9d5ff 40%, #c4b5fd 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+/* ── Glass ──────────────────────────────────────────────── */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+}
+.glass-sky {
+  background: rgba(56,189,248,0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-sky);
+}
+.glass-lav {
+  background: rgba(196,181,253,0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(196,181,253,0.18);
+}
+
+/* ── Glow utilities ─────────────────────────────────────── */
+.glow-sky  { box-shadow: 0 0 40px rgba(56,189,248,0.2),  0 0 120px rgba(56,189,248,0.06); }
+.glow-moon { box-shadow: 0 0 40px rgba(147,197,253,0.2), 0 0 120px rgba(147,197,253,0.06); }
+.glow-lav  { box-shadow: 0 0 40px rgba(196,181,253,0.2), 0 0 120px rgba(196,181,253,0.06); }
+.glow-cyan { box-shadow: 0 0 40px rgba(103,232,249,0.2), 0 0 120px rgba(103,232,249,0.06); }
+
+/* ── Dividers ───────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(56,189,248,0.35), rgba(196,181,253,0.25), transparent);
+}
+
+/* ── 3D Card flip ───────────────────────────────────────── */
+.flip-wrap   { perspective: 1200px; }
+.flip-inner  {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.flip-wrap:hover .flip-inner,
+.flip-wrap.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-front,
+.flip-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.flip-back { transform: rotateY(180deg); }
+
+/* ── Keyframe animations ────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-14px); }
+}
+@keyframes driftStar {
+  0%   { transform: translateY(0)   scale(var(--s,1)); opacity: 0; }
+  5%   { opacity: var(--op, 0.7); }
+  95%  { opacity: var(--op, 0.4); }
+  100% { transform: translateY(-110vh) scale(var(--s,1)); opacity: 0; }
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.15; transform: scale(0.6); }
+  50%     { opacity: 1;    transform: scale(1.4); }
+}
+@keyframes pulseRing {
+  0%   { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+@keyframes wrongShake {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-10px); }
+  40%     { transform: translateX(10px); }
+  60%     { transform: translateX(-7px); }
+  80%     { transform: translateX(7px); }
+}
+@keyframes successPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(56px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+@keyframes scaleIn {
+  from { opacity:0; transform:scale(0.88); }
+  to   { opacity:1; transform:scale(1); }
+}
+@keyframes breathe {
+  0%,100% { opacity:0.55; transform:scale(1); }
+  50%     { opacity:1;    transform:scale(1.04); }
+}
+@keyframes orbitSlow {
+  from { transform: rotate(0deg) translateX(140px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(140px) rotate(-360deg); }
+}
+
+/* ── Utility classes ────────────────────────────────────── */
+.animate-slide-up   { animation: slideUp  0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
+.animate-fade-in    { animation: fadeIn   1.2s ease forwards; }
+.animate-scale-in   { animation: scaleIn  0.6s cubic-bezier(0.16,1,0.3,1) forwards; }
+.animate-float      { animation: float    7s   ease-in-out infinite; }
+.animate-float-slow { animation: float    12s  ease-in-out infinite; }
+.animate-breathe    { animation: breathe  5s   ease-in-out infinite; }
+
+.section-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+              transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.section-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
